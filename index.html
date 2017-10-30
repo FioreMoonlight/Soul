@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+        <script  src="souler.js"></script>
+        <script  src="Boss.js"></script>
+        <script type="text/javascript" src="fiore.js"></script>
+        <style type="text/css">
+            .Attack{
+
+            }
+        </style>
+    </head>
+    <body>
+        <button class="Attack">触发</button>
+        
+        <div id="BHP"></div>
+        <div id="SHP"></div>
+        <script type="text/javascript">
+            var F = new Souler();
+            var B = new Boss();
+            console.log(B.HP);
+            $(".Attack").click(function(event) {
+                F.Attackspeed(B.HP);
+                B.Attackspeed(F.HP);
+            });
+            
+
+        </script>
+    </body>
+</html>

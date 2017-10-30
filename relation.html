@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+        // var relationary = ["a","b","c","d","e"];
+        var familyobject = {};
+          //familyobject.Aileen = [];
+        function penson(object){
+            this.name = object.name || "name";
+            // this.relationshipary = object.relationshipar;
+            this.peosonlevel = object.peosonlevel || 0 ;
+            this.attribute = object.attribute || 500;
+            this.familyname = object.familyname || "无名家族";
+            // this.familyarylocation = object.familyarylocation || 0;
+            this.family = object.family || "nofamily";//家族数组
+            this.pensonship = object.pensonship;
+            this._makefamily();
+            this._domshow();
+        }
+        penson.prototype={
+            _domshow:function(dom){
+                document.body.innerHTML += this.familyname+"-"+this.family+"-"+this.name+"-"+this.attribute+"<br>";
+            },
+            con:function(){
+                console.log("人物名称:"+this.familyname+this.name);
+                // console.log("直属关系:"+this.relationshipary);
+                console.log("关系层级:"+this.peosonlevel);
+                console.log("属性指数:"+this.attribute);
+            },
+            _makefamily:function(){
+                //var x = this.family;
+                //console.log(familyobject[x]);
+                if(this.family in familyobject){
+                    //console.log("有这个属性");
+                    familyobject[this.family].push(this);
+                }else{
+                    //console.log("无这个属性");
+                    familyobject[this.family]=[];
+                    familyobject[this.family].push(this);
+                }
+                // console.log(this.familyary);
+            }
+        }
+
+        // function familyarytest(penson){
+        //     if(familyobject.)
+        // }
+
+        var a = new penson({name:"女儿",familyname:"艾琳家族",family:"Aileen",peosonlevel:1,pensonship:[]});
+        var b = new penson({name:"爸爸",familyname:"艾琳家族",family:"Aileen",peosonlevel:2,pensonship:[]});
+        var c = new penson({name:"妈妈",familyname:"艾琳家族",family:"Aileen",peosonlevel:2});
+        var d = new penson({name:"爷爷",familyname:"艾琳家族",family:"Aileen",peosonlevel:3});
+        var e = new penson({name:"奶奶",familyname:"艾琳家族",family:"Aileen",peosonlevel:3});
+
+
+        var f = new penson({name:"儿子",familyname:"弗雷家族",family:"Frey",peosonlevel:1,pensonship:[]});
+        var g = new penson({name:"爸爸",familyname:"弗雷家族",family:"Frey",peosonlevel:2});
+        var h = new penson({name:"妈妈",familyname:"弗雷家族",family:"Frey",peosonlevel:2});
+        
+        //关系权重影响
+        var names ='';
+        function somethings(person,val){
+           
+                 
+                  for(var i = 0; i < familyobject[person.family].length ; i++){
+                        var a = Math.abs(person.peosonlevel - familyobject[person.family][i].peosonlevel);
+                       
+                        if( a == 0){
+                            familyobject[person.family][i].attribute += val;
+                            familyobject[person.family][i]._domshow();
+                            mood(familyobject[person.family][i]);
+                        }else if( a == 1 ){
+                            familyobject[person.family][i].attribute += val*.5;
+                            familyobject[person.family][i]._domshow();
+                            mood(familyobject[person.family][i]);
+                        }else if( a == 2){
+                            familyobject[person.family][i].attribute += val*.3;
+                            familyobject[person.family][i]._domshow();
+                            mood(familyobject[person.family][i]);
+                        }
+
+                        
+                        
+                    }  
+
+                 
+                // for(var name in familyobject){
+                //     for(var i = 0; i < familyobject[name].length ; i++){      
+                //         if(familyobject[name][i].pensonship != ""){
+                //                     //console.log(familyobject[name][i].pensonship);
+                //                 }
+                //     }
+                // }
+                    if(person.pensonship != ""){
+                        for(var i = 0;i<person.pensonship.length;i++){
+                            person.pensonship[i].a.attribute += val*person.pensonship[i].b;
+                            person.pensonship[i].a._domshow();
+                            mood(person.pensonship[i].a);
+                        }
+                    }
+            
+        }
+        //
+        function pensonship(aa,bb,mood){
+            switch(mood){
+                case "love":
+                    aa.pensonship.push({"a":bb,"b":1});
+                    bb.pensonship.push({"a":bb,"b":1});
+                    break;
+                case "friend":
+                    aa.pensonship.push({"a":bb,"b":.5});
+                    bb.pensonship.push({"a":bb,"b":.5});
+                    break;
+                case "hidlove":
+                    bb.pensonship.push({"a":bb,"b":1});//b会影响a
+                    break;
+                default:
+                    console.log("错误关系"+mood)
+            } 
+
+        }
+        //情感状态判定
+        function mood(person){
+            if(person.attribute >= 600){
+                console.log(person.familyname+person.name+" 处于开心状态")
+            }else if(person.attribute <= 300){
+                console.log(person.familyname+person.name+" 处于生气状态")
+            }
+        }
+
+        pensonship(a,f,"love")
+        somethings(a,20);
+        f.con();
+        console.log(familyobject);
+        
+        </script>
+        
+    </body>
+</html>
